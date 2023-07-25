@@ -34,6 +34,7 @@ func main() {
 	go doIncrement("b", 1)
 	go doIncrement("a", 1)
 	go doIncrement("b", 1)
+	w.Wait()
 
 	fmt.Println(c.counters)
 }
