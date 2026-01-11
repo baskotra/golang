@@ -15,6 +15,7 @@ import (
 
 var pollEnabled = true
 var counter int32 = 0
+//initialize channel, since a nil channel always blocks forever
 var read = make(chan struct{})
 
 func main() {
