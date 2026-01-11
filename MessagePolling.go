@@ -15,13 +15,14 @@ import (
 
 var pollEnabled = true
 var counter int32 = 0
-var read chan struct{}
+var read = make(chan struct{})
 
 func main() {
 	go startPolling()
-	time.Sleep(15 * time.Second)
+	time.Sleep(5 * time.Second)
 	pollEnabled = false
 	go stopPoll(pollEnabled)
+	time.Sleep(1 * time.Second)
 }
 
 func startPolling() {
@@ -29,8 +30,9 @@ func startPolling() {
 		select {
 		case <-read:
 			fmt.Println("Poller stopped")
+			return
 		default:
-			time.Sleep(5 * time.Second)
+			time.Sleep(1 * time.Second)
 			fmt.Println(getGreeting())
 		}
 
@@ -43,7 +45,7 @@ func getGreeting() string {
 }
 
 func stopPoll(pollEnabled bool) {
-	if pollEnabled == false {
+	if !pollEnabled {
 		close(read)
 	}
 
